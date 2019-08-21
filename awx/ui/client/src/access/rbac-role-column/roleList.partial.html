@@ -18,6 +18,7 @@
     <div class="RoleList-tag"
         ng-class="{'RoleList-tag--deletable': entry.explicit && entry.user_capabilities.unattach,
             'RoleList-tag--team': entry.team_id}"
+        aw-tool-tip='<div>Owns ability: {{ entry.description | sanitize }}</div><div>For entity: {{entry.resource_name | sanitize}}</div>' aw-tip-placement='bottom'
         ng-if="!entry.team_id">
         <span class="RoleList-name">{{ entry.name }}</span>
     </div>
