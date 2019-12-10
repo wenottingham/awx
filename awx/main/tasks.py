@@ -1507,7 +1507,7 @@ class RunJob(BaseTask):
     def add_ansible_venv(self, venv_path, env, isolated=False):
         super(RunJob, self).add_ansible_venv(venv_path, env, isolated=isolated)
         # Add awx/lib to PYTHONPATH.
-        env['PYTHONPATH'] = env.get('PYTHONPATH', '') + self.get_path_to('..', 'lib') + ':'
+        env['PYTHONHOME'] = venv_path
 
     def build_env(self, job, private_data_dir, isolated=False, private_data_files=None):
         '''
