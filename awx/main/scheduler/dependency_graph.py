@@ -144,6 +144,3 @@ class DependencyGraph(object):
         elif type(job) is AdHocCommand:
             self.mark_inventory_update(job.inventory_id)
 
-    def add_jobs(self, jobs):
-        for j in jobs:
-            self.add_job(j)

@@ -221,10 +221,6 @@ class BaseAccess(object):
     def can_change(self, obj, data):
         return self.user.is_superuser
 
-    def can_write(self, obj, data):
-        # Alias for change.
-        return self.can_change(obj, data)
-
     def can_admin(self, obj, data):
         # Alias for can_change.  Can be overridden if admin vs. user change
         # permissions need to be different.
@@ -2105,18 +2101,6 @@ class WorkflowJobAccess(BaseAccess):
                 raise PermissionDenied(_('Job was launched with prompts no longer accepted.'))
 
         return True  # passed config checks
-
-    def can_recreate(self, obj):
-        node_qs = obj.workflow_job_nodes.all().prefetch_related('inventory', 'credentials', 'unified_job_template')
-        node_access = WorkflowJobNodeAccess(user=self.user)
-        wj_add_perm = True
-        for node in node_qs:
-            if not node_access.can_add({'reference_obj': node}):
-                wj_add_perm = False
-        if not wj_add_perm and self.save_messages:
-            self.messages['workflow_job_template'] = _('You do not have permission to the workflow job '
-                                                       'resources required for relaunch.')
-        return wj_add_perm
 
     def can_cancel(self, obj):
         if not obj.can_cancel:
