@@ -77,7 +77,6 @@ main() {
   generate_requirements_v3
   generate_requirements_v2
 
-  sed -i 's/^docutils.*//g' requirements.txt
   generate_patch | patch -p4 requirements_ansible_py3.txt
 
   cp -vf requirements_ansible_py3.txt "${requirements_ansible}"
