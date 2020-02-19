@@ -127,6 +127,11 @@ This breaks a very large amount of AWX code that assumes these fields
 are returned as dicts. Upgrading this library will require a refactor
 to accomidate this change.
 
+### wheel
+
+azure-cli-core requires a version of wheel that is incompatible with
+certain packages building with later versions of pip, so we override it.
+
 ### pip and setuptools
 
 The offline installer needs to have functionality confirmed before upgrading these.
