@@ -1011,13 +1011,13 @@ def get_custom_venv_choices(custom_paths=None):
 
     for custom_venv_path in all_venv_paths:
         if os.path.exists(custom_venv_path):
-            custom_venv_choices.extend([
-                os.path.join(custom_venv_path, x, '')
-                for x in os.listdir(custom_venv_path)
-                if x != 'awx' and
-                os.path.isdir(os.path.join(custom_venv_path, x)) and
-                os.path.exists(os.path.join(custom_venv_path, x, 'bin', 'activate'))
-            ])
+            try:
+                for p in os.scandir(custom_venv_path):
+                    if p.name != 'awx' && p.is_dir() && \
+                       os.path.exists(os.path.join(p.path, 'bin', 'activate')):
+                        custom_venv_choices.extend([p.path])
+            except PermissionError:
+                pass
     return custom_venv_choices
 
 
