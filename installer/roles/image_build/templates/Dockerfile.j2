@@ -182,11 +182,9 @@ ADD tools/docker-compose/bootstrap_development.sh /usr/bin/bootstrap_development
 ADD tools/docker-compose/entrypoint.sh /entrypoint.sh
 ADD tools/scripts/awx-python /usr/bin/awx-python
 {% else %}
+ADD supervisor.conf /etc/supervisord.conf
 ADD launch_awx.sh /usr/bin/launch_awx.sh
-ADD launch_awx_task.sh /usr/bin/launch_awx_task.sh
 ADD settings.py /etc/tower/settings.py
-ADD supervisor.conf /supervisor.conf
-ADD supervisor_task.conf /supervisor_task.conf
 ADD config-watcher /usr/bin/config-watcher
 {% endif %}
 
@@ -198,10 +196,10 @@ RUN for dir in \
       /var/run/awx-rsyslog \
       /var/log/tower \
       /var/log/nginx \
+      /var/run/supervisor \
       /var/lib/nginx ; \
     do mkdir -m 0775 -p $dir ; chmod g+rw $dir ; chgrp root $dir ; done && \
     for file in \
-      /supervisord.log \
       /etc/passwd ; \
     do touch $file ; chmod g+rw $file ; chgrp root $file ; done
 
@@ -220,7 +218,6 @@ RUN for dir in \
       /vendor ; \
     do mkdir -m 0775 -p $dir ; chmod g+rw $dir ; chgrp root $dir ; done && \
     for file in \
-      /etc/supervisord.conf \
       /var/run/nginx.pid \
       /venv/awx/lib/python3.6/site-packages/awx.egg-link ; \
     do touch $file ; chmod g+rw $file ; done

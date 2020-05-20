@@ -274,7 +274,7 @@ supervisor:
 	@if [ "$(VENV_BASE)" ]; then \
 		. $(VENV_BASE)/awx/bin/activate; \
 	fi; \
-	supervisord --pidfile=/tmp/supervisor_pid -n
+	supervisord --pidfile=/tmp/supervisor_pid -c /awx_devel/tools/docker-compose/supervisor.conf -n
 
 collectstatic:
 	@if [ "$(VENV_BASE)" ]; then \
