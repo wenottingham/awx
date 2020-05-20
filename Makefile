@@ -231,13 +231,6 @@ develop:
 	    $(PYTHON) setup.py develop; \
 	fi
 
-version_file:
-	mkdir -p /var/lib/awx/; \
-	if [ "$(VENV_BASE)" ]; then \
-		. $(VENV_BASE)/awx/bin/activate; \
-	fi; \
-	python -c "import awx; print(awx.__version__)" > /var/lib/awx/.awx_version; \
-
 # Do any one-time init tasks.
 comma := ,
 init:
@@ -253,7 +246,7 @@ init:
 	fi;
 
 # Refresh development environment after pulling new code.
-refresh: clean requirements_dev version_file develop migrate
+refresh: clean requirements_dev develop migrate
 
 # Create Django superuser.
 adduser:
