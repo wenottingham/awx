@@ -130,6 +130,13 @@
     mode: '0700'
   delegate_to: localhost
 
+- name: Stage useradd helper
+  copy:
+    src: useradd_helper
+    dest: "{{ docker_base_path}}/useradd_helper"
+    mode: '0755'
+  delegate_to: localhost
+
 - name: Stage rsyslog.conf
   copy:
     src: rsyslog.conf

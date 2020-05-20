@@ -1,10 +1,6 @@
 #!/usr/bin/env bash
-if [ `id -u` -ge 500 ]; then
-    echo "awx:x:`id -u`:`id -g`:,,,:/var/lib/awx:/bin/bash" >> /tmp/passwd
-    cat /tmp/passwd > /etc/passwd
-    rm /tmp/passwd
-fi
 
+source /etc/tower/useradd_helper
 source /etc/tower/conf.d/environment.sh
 
 ANSIBLE_REMOTE_TEMP=/tmp ANSIBLE_LOCAL_TEMP=/tmp ansible -i "127.0.0.1," -c local -v -m wait_for -a "host=$DATABASE_HOST port=$DATABASE_PORT" all
