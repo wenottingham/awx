@@ -181,6 +181,7 @@ ADD tools/docker-compose/start_tests.sh /start_tests.sh
 ADD tools/docker-compose/bootstrap_development.sh /usr/bin/bootstrap_development.sh
 ADD tools/docker-compose/entrypoint.sh /entrypoint.sh
 ADD tools/scripts/awx-python /usr/bin/awx-python
+RUN ln -sf /awx_devel/tools/docker-compose/supervisor.conf /etc/supervisord.conf
 {% else %}
 ADD supervisor.conf /etc/supervisord.conf
 ADD launch_awx.sh /usr/bin/launch_awx.sh
