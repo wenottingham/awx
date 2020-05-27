@@ -212,7 +212,6 @@
     - 'configmap'
     - 'secret'
     - 'deployment'
-    - 'supervisor'
     - 'launch_awx'
   no_log: true
 
@@ -223,7 +222,6 @@
     - "{{ configmap }}"
     - "{{ secret }}"
     - "{{ deployment }}"
-    - "{{ supervisor }}"
     - "{{ launch_awx }}"
   no_log: true
 

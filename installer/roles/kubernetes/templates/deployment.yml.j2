@@ -143,16 +143,6 @@ spec:
               subPath: "launch_awx_task.sh"
               readOnly: true
 
-            - name: {{ kubernetes_deployment_name }}-supervisor-web-config
-              mountPath: "/supervisor.conf"
-              subPath: supervisor.conf
-              readOnly: true
-
-            - name: {{ kubernetes_deployment_name }}-supervisor-task-config
-              mountPath: "/supervisor_task.conf"
-              subPath: supervisor_task.conf
-              readOnly: true
-
             - name: {{ kubernetes_deployment_name }}-secret-key
               mountPath: "/etc/tower/SECRET_KEY"
               subPath: SECRET_KEY
@@ -219,16 +209,6 @@ spec:
               subPath: "launch_awx_task.sh"
               readOnly: true
 
-            - name: {{ kubernetes_deployment_name }}-supervisor-web-config
-              mountPath: "/supervisor.conf"
-              subPath: supervisor.conf
-              readOnly: true
-
-            - name: {{ kubernetes_deployment_name }}-supervisor-task-config
-              mountPath: "/supervisor_task.conf"
-              subPath: supervisor_task.conf
-              readOnly: true
-
             - name: {{ kubernetes_deployment_name }}-secret-key
               mountPath: "/etc/tower/SECRET_KEY"
               subPath: SECRET_KEY
@@ -240,8 +220,6 @@ spec:
             - name: {{ kubernetes_deployment_name }}-memcached-socket
               mountPath: "/var/run/memcached"
           env:
-            - name: SUPERVISOR_WEB_CONFIG_PATH
-              value: "/supervisor.conf"
             - name: AWX_SKIP_MIGRATIONS
               value: "1"
             - name: MY_POD_UID
@@ -399,20 +377,6 @@ spec:
               - key: launch-awx-task
                 path: 'launch_awx_task.sh'
             defaultMode: 0755
-
-        - name: {{ kubernetes_deployment_name }}-supervisor-web-config
-          configMap:
-            name: {{ kubernetes_deployment_name }}-supervisor-config
-            items:
-              - key: supervisor-web-config
-                path: 'supervisor.conf'
-
-        - name: {{ kubernetes_deployment_name }}-supervisor-task-config
-          configMap:
-            name: {{ kubernetes_deployment_name }}-supervisor-config
-            items:
-              - key: supervisor-task-config
-                path: 'supervisor_task.conf'
 
         - name: {{ kubernetes_deployment_name }}-secret-key
           secret:
