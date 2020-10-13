@@ -3,6 +3,7 @@
 
 # Python
 import base64
+import json
 import re
 
 # Django
@@ -16,11 +17,25 @@ from rest_framework.exceptions import ParseError
 # AWX
 from awx.main.utils import parse_yaml_or_json
 
+# RHSM
+from rhsm import certificate, certificate2
 
 def validate_entitlement_cert(data, min_keys=0, max_keys=None, min_certs=0, max_certs=None):
-    # TODO: replace with more actual robust logic here to allow for multiple certificates in one cert file (because this is how entitlements do)
-    # This is a temporary hack that should not be merged. Look at Ln:92
-    pass
+    try:
+        json.loads(data)
+        raise ValidationError(_("Unsupported JSON license key uploaded. A certificate/key pair is now required."))
+    except json.JSONDecodeError:
+        pass
+    certinfo = certificate.create_from_pem(data)
+    if not certinfo.is_valid():
+        raise ValidationError(_("Could not parse entitlement certificate."))
+    if (type(certinfo) != certificate2.EntitlementCertificate):
+        raise ValidationError(_("Certificate is not an entitlement certificate."))
+    if certinfo.is_expired():
+        raise ValidationError(_("Entitlement certificate is expired."))
+    if not any(map(lambda x: x.id == '480', certinfo.products)):
+        raise ValidationError(_("Entitlement certificate is for another product."))
+
 
 
 def validate_pem(data, min_keys=0, max_keys=None, min_certs=0, max_certs=None):
