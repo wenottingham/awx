@@ -68,6 +68,7 @@ from awx.main.queue import CallbackQueueDispatcher
 from awx.main.isolated import manager as isolated_manager
 from awx.main.dispatch.publish import task
 from awx.main.dispatch import get_local_queuename, reaper
+from awx.main.signals import disable_activity_stream
 from awx.main.utils import (update_scm_url,
                             ignore_inventory_computed_fields,
                             ignore_inventory_group_removal, extract_ansible_vars, schedule_task_manager,
@@ -414,7 +415,8 @@ def gather_analytics():
                     if not _gather_and_ship(incremental_collectors, since=start, until=until):
                         break
                     start = until
-                    settings.AUTOMATION_ANALYTICS_LAST_GATHER = until
+                    with disable_activity_stream():
+                        settings.AUTOMATION_ANALYTICS_LAST_GATHER = until
             if subset:
                 _gather_and_ship(subset, since=since, until=gather_time)
 
