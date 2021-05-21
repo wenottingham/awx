@@ -1780,7 +1780,6 @@ class HostSerializer(BaseSerializerWithVariables):
                 smart_inventories=self.reverse('api:host_smart_inventories_list', kwargs={'pk': obj.pk}),
                 ad_hoc_commands=self.reverse('api:host_ad_hoc_commands_list', kwargs={'pk': obj.pk}),
                 ad_hoc_command_events=self.reverse('api:host_ad_hoc_command_events_list', kwargs={'pk': obj.pk}),
-                insights=self.reverse('api:host_insights', kwargs={'pk': obj.pk}),
                 ansible_facts=self.reverse('api:host_ansible_facts_detail', kwargs={'pk': obj.pk}),
             )
         )
